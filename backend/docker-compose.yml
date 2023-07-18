@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: unbavaliacoes
+    ports:
+      - 5432:5432
+    networks:
+      - unbavaliacoes-network
+  backend:
+    container_name: unbavaliacoes-backend
+    build:
+      context: ../../../unbfeedback/backend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    networks:
+      - unbavaliacoes-network
+
+networks:
+  unbavaliacoes-network:
